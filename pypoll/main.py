@@ -2,6 +2,13 @@
 import os
 import csv
 
+#Declare variables 
+total_count = 0
+candidatelist = []
+unique_candidates = []
+vote_count = []
+vote_percent = []
+
 #Path of CSV
 election_data_csv = os.path.join("resources", "election_data.csv")
 
@@ -12,16 +19,26 @@ with open(election_data_csv) as csv_file:
     #Header
     csv_header = next(csv_reader)
 
-#Declare variables 
-count = 0
-candidatelist = []
-unique_candidate = []
-vote_count = []
-vote_percent = []
+    #Total Votes
+    for row in csv_reader:
+        total_count += 1
 
-#Total Votes
-for row in csv_reader:
-    count = count + 1
+        #add names
+        if row[2] not in unique_candidates:
+                unique_candidates.append(row[2])
+
+
+
+    
+print(unique_candidates)
+print(total_count)
+
+
+        
+
+
+
+
 
 #Getting an error about I/O; cannot figure this out
 
