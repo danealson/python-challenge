@@ -4,10 +4,12 @@ import csv
 
 #Declare variables 
 total_count = 0
-candidatelist = []
+votes = []
+candidate_count = []
 unique_candidates = []
-vote_count = []
-vote_percent = []
+percent = []
+#vote_count = []
+#vote_percent = []
 
 #Path of CSV
 election_data_csv = os.path.join("resources", "election_data.csv")
@@ -26,12 +28,43 @@ with open(election_data_csv) as csv_file:
         #add names
         if row[2] not in unique_candidates:
                 unique_candidates.append(row[2])
+        
+        #make a list of votes
+        votes.append(row[2])
+
+    for candidate in unique_candidates:
+        candidate_count.append(votes.count(candidate))
+        percent.append(round(votes.count(candidate)/total_count*100,3))
+
+    winner = unique_candidates[candidate_count.index(max(candidate_count))]
+
+print("Election Results")
+print("-----------------------------")
+print(f"Total Votes: {total_count}")
+print("-----------------------------")
+for i in range(len(unique_candidates)):
+    print(f"{unique_candidates[i]}  {percent[i]}% ({candidate_count[i]})")
+print("-----------------------------")
+print(f"Winner: {winner}")
+print("-----------------------------")
 
 
 
+output_file = 'analysis/results.txt'
+with open(output_file, "w", newline="") as datafile:
+    csvwriter = csv.writer(datafile)
+    csvwriter.writerow(["Election Results"])
+    csvwriter.writerow(["--------------------"])
+    csvwriter.writerow([f"Total Votes: {total_count}"])
+    csvwriter.writerow(["--------------------"])
+    for i in range(len(unique_candidates)):
+        csvwriter.writerow([f"{unique_candidates[i]}  {percent[i]}% ({candidate_count[i]})"])
+    csvwriter.writerow(["-----------------------------"])
+    csvwriter.writerow([f"Winner: {winner}"])
+    csvwriter.writerow(["-----------------------------"])
     
-print(unique_candidates)
-print(total_count)
+#print(unique_candidates)
+#print(total_count)
 
 
         
